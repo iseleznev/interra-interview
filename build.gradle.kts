@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "1.4.10"
     application
 }
+
 group = "me.seleznev.interview.interra"
 version = "1.0"
 
@@ -20,6 +21,7 @@ dependencies {
     testImplementation("com.nhaarman:mockito-kotlin:1.3.0")
 }
 
+apply(plugin = "java")
 
 tasks {
     test {
@@ -35,5 +37,25 @@ tasks {
 }
 
 application {
-    mainClassName = "MainKt"
+    mainClassName = "me.seleznev.interview.interra.Main"
 }
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "me.seleznev.interview.interra.Main"
+    }
+
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from(
+        {
+            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+        }
+    )
+}
+
