@@ -8,7 +8,7 @@ import java.lang.StringBuilder
 import java.util.*
 import kotlin.random.Random
 
-class EmailsOptimizeKtTestIT {
+class InterviewInterraTestIT {
 
     @MethodSource("generate")
     @ParameterizedTest
