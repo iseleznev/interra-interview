@@ -1,0 +1,10 @@
+.idea
+.git
+*.jar
+*.war
+*.log
+*.tmp
+target
+build
+.gradle
+*.iml
