@@ -1,11 +1,21 @@
 package me.seleznev.interview.interra
 
-import java.io.File
+class Main {
 
-fun main(args: Array<String>) {
-    println(
-        emailsOptimize(
-            File(args[0]).readText(Charsets.UTF_8)
-        )
-    )
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val content = StringBuilder()
+            var input = readLine()
+            while (input != null && !input.isBlank()) {
+                content.appendLine(input)
+                input = readLine()
+            }
+            println(
+                emailsOptimize(
+                    content.toString()
+                )
+            )
+        }
+    }
 }
