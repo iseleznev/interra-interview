@@ -58,4 +58,3 @@ tasks.withType<Jar> {
         }
     )
 }
-

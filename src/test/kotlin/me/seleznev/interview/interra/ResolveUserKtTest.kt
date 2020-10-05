@@ -18,7 +18,19 @@ class ResolveUserKtTest {
     }
 
     @Test
-    fun resolveUserTestWithUserThatLinkedToOther() {
+    fun resolveUserTestWithUserThatLinkedToOtherDirectly() {
+        val expected = UUID.randomUUID().toString()
+        val userSpecified = UUID.randomUUID().toString()
+        val linkedUsers = mutableMapOf(
+            Pair(userSpecified, expected),
+        )
+        val actual = resolveUser(linkedUsers, userSpecified)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun resolveUserTestWithUserThatLinkedToOtherIndirectly() {
         val expected = UUID.randomUUID().toString()
         val userBetweenSpecifiedAndExpected = UUID.randomUUID().toString()
         val userSpecified = UUID.randomUUID().toString()

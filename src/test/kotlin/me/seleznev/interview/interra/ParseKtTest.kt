@@ -13,9 +13,52 @@ class ParseKtTest {
         val email = UUID.randomUUID().toString()
         val content = "$user -> $email"
         val actual = parse(content)
-        assertTrue(actual.emails.containsKey(email))
-        assertTrue(actual.emails.size == 1)
-        assertTrue(actual.emails[email] == user)
+        assertThat(actual.userLinks).isEmpty()
+        assertThat(actual.emails).containsOnlyKeys(email)
+        assertThat(actual.emails.getValue(email)).isEqualTo(user)
+    }
+
+    @Test
+    fun parseTestUserWithBlankEmailInLine() {
+        val user = UUID.randomUUID().toString()
+        val firstEmail = UUID.randomUUID().toString()
+        val lastEmail = UUID.randomUUID().toString()
+        val content = "$user -> $firstEmail, , $lastEmail"
+        val actual = parse(content)
+        assertThat(actual.userLinks).isEmpty()
+        assertThat(actual.emails).containsOnlyKeys(firstEmail, lastEmail, "")
+        assertThat(actual.emails.getValue(firstEmail)).isEqualTo(user)
+        assertThat(actual.emails.getValue("")).isEqualTo(user)
+        assertThat(actual.emails.getValue(lastEmail)).isEqualTo(user)
+    }
+
+    @Test
+    fun parseTestWithUserWithoutEmails() {
+        val user = UUID.randomUUID().toString()
+        val content = "$user -> "
+        val actual = parse(content)
+        assertThat(actual.userLinks).isEmpty()
+        assertThat(actual.emails).containsOnlyKeys("")
+        assertThat(actual.emails.getValue("")).isEqualTo(user)
+    }
+
+    @Test
+    fun parseTestWithoutBeforeEmails() {
+        val email = UUID.randomUUID().toString()
+        val content = "-> $email"
+        val actual = parse(content)
+        assertThat(actual.userLinks).isEmpty()
+        assertThat(actual.emails).containsOnlyKeys(email)
+        assertThat(actual.emails.getValue(email)).isEqualTo("")
+    }
+
+    @Test
+    fun parseTestWithUserWithoutEmailsWithoutDelimeter() {
+        val user = UUID.randomUUID().toString()
+        val actual = parse(user)
+        assertThat(actual.userLinks).containsKey(user)
+        assertThat(actual.userLinks.getValue(user)).isEqualTo(user)
+        assertThat(actual.emails).isEmpty()
     }
 
     @Test

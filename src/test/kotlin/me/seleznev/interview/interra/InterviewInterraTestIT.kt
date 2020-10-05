@@ -12,7 +12,7 @@ class InterviewInterraTestIT {
 
     @MethodSource("generate")
     @ParameterizedTest
-    fun emailsOptimizeTest(input: String, expected: Map<String, List<String>>) {
+    fun testWithCompletelyCase(input: String, expected: Map<String, List<String>>) {
         val actual = collect(
             parse(input)
         )
@@ -24,6 +24,7 @@ class InterviewInterraTestIT {
     }
 
     companion object {
+
         @JvmStatic
         fun generate(): List<Arguments> {
             val count = Random.nextInt(10) + 5
