@@ -23,7 +23,7 @@ fun parse(content: String): ParseResult {
                 .map { email -> email.trim().toLowerCase() }
                 .forEach { email ->
                     if (user != emails.getOrPut(email, { user })) {
-                        userLinks[user] = resolveUser(userLinks, emails.getValue(email))
+                        link(user, email, userLinks, emails)
                     }
                 }
         }
